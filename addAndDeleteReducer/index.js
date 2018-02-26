@@ -9,6 +9,13 @@ const ActionTypes = {
   DEL: '@@redux/DEL_REDUCER',
 }
 export default baseReduers => createStore => (reducers, action, enhancer) => {
+    if (
+        !baseReduers
+        || JSON.stringify(baseReduers) === '{}'
+        || typeof baseReduers !== 'object'
+    ) {
+        return throw new Error('baseReduers必须是{key: reducer}结构');
+    }
     const store = createStore(reducers, action, enhancer);
 
     let newReducers = baseReduers;
